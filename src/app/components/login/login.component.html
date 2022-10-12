@@ -1,0 +1,103 @@
+<div class="outer">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+        <!-- <div style="width: 200px; height: 200px; xbackground-color: aquamarine; border-color: red; color: brown; border-width: 10px ; border-radius: 100px;"></div> -->
+        <div class="panel border1 shaktimann">
+
+          <div class="camera-outer" style="padding-left:35%;">
+            <div class="camera"> 
+              <i class="fa fa-thin fa-camera"></i>
+            </div>
+          </div>
+          
+          <div class="panel-body p-3">
+            <form [formGroup]="loginForm" class="form">
+              <div class="box">
+                <div class="icon">
+                  <i class="fa fa-solid fa-user"></i>
+                </div>
+                <div
+                  class="input-field"
+                  [class.error]="
+                    loginForm.controls['username'].dirty &&
+                    loginForm.hasError('required', 'username')
+                  "
+                >                
+                  <input
+                    class="shaktimann"
+                    formControlName="username"
+                    type="text"
+                    placeholder="  Username"
+                  />
+                </div>
+              </div>
+              <small
+                *ngIf="
+                  loginForm.controls['username'].dirty &&
+                  loginForm.hasError('required', 'username')
+                "
+                class="text-danger"
+                >*Username is required</small
+              >
+              <div class="box" >
+                <div class="icon" style="padding-left: 8px;">
+                  <i class="fa fa-lock p-2"></i>
+                </div>
+                <div
+                  class="input-field"
+                  [class.error]="
+                    loginForm.controls['password'].dirty &&
+                    loginForm.hasError('required', 'password')
+                  "
+                >
+                  <!-- <span class="fa fa-lock p-2" style="background-color: aliceblue; color: rgb(86, 85, 85);"></span> -->
+                  <input
+                    class="shaktimann"
+                    formControlName="password"
+                    [type]="passType"
+                    placeholder="  *********"
+                  />
+                  <!-- <span
+                    class="fa {{ eyeIcon }}"
+                    (click)="hideShowPass()"
+                  ></span> -->
+                </div>
+              </div>
+              <small
+                *ngIf="
+                  loginForm.controls['password'].dirty &&
+                  loginForm.hasError('required', 'password')
+                "
+                class="text-danger"
+                >*Password is required</small
+              >
+              <div class="major-don">
+                <input class="checkbox" type="checkbox" id="checkbox" name="checkbox" checked  style="height: 15px; width:15px; margin-top: 4px;">
+                <label for="checkbox" style="margin: 0; padding-top:2px; color: white; padding-left: 6px;">Remember me</label>
+                <div class="form-inline" style="text-align: right;">
+                  <a class="forget" style="align-items: right; padding:0px; padding-top: 7px; padding-left:80px">Forget Password?</a>
+                </div>
+              </div>
+
+              <button
+                (click)="onSubmit()"
+                type="submit"
+                class="login"
+              >
+                LOGIN
+              </button>
+              <button
+                type="button"
+                class="signup"
+                routerLink="/signup"
+              >
+                REGISTER
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

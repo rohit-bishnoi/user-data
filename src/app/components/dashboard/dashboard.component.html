@@ -1,0 +1,215 @@
+<div class="main">
+  <div class="menu">
+    <h2 class="logo">&diams; ADMINTORY</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Users</a>
+    <a routerLink="/signup">Register New User</a>
+  </div>
+  <div class="body">
+    <div class="header">
+      <div class="dashbord-item">
+        <h5>Dashboard > Users</h5>
+        <!-- <h6>username</h6> -->
+      </div>
+      <!-- <div class="dashbord-username">
+          <h5>UsersName</h5>
+        </div> -->
+        <div class="userName">{{userName}}</div>
+        
+
+      <div class="rightHeader">
+        <button type="button" class="btn btn-primary"  (click)="open(content)">
+          Create New
+        </button>
+      </div>
+      <div class="user1">
+        <h5>Users</h5>
+      </div>
+      
+    </div>
+    <div>
+      
+      <!-- <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCountries()">
+        </ngb-pagination>             
+        <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
+          <option [ngValue]="15">15 items per page</option>
+          <option [ngValue]="20">20 items per page</option>
+          <option [ngValue]="50">50 items per page</option>
+          <option [ngValue]="100">100 items per page</option>
+          <option [ngValue]="150">150 items per page</option>
+        </select>                
+    </div> -->
+    
+      <div class="search-hero searchbar">
+        <input type="text" name="search" [(ngModel)]="searchText" placeholder="search">
+      </div>
+      
+      
+      <!-- <div>
+        <mat-paginator aria-label="selet page of users"></mat-paginator>
+        <table mat-table matSort [dataSource]="dataSource">
+          
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+            <td mat-cell *matCellDef="let row"> {{row.username}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="mobile">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>mobile</th>
+            <td mat-cell *matCellDef="let row"> {{row.mobile}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumn"></tr>
+        </table>
+      </div> -->
+
+      <div>
+        <table id="users" >
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Mobile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of posts | filter:searchText">
+              <td>{{item.id}}</td>
+              <td>{{item.username}}</td>
+              <td>{{item.email}}</td>
+              <td>{{item.mobile}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal >
+  <div class="modal-header">
+    <h4 class="modal-title title" id="modal-basic-title">Register</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="signupForm" class="form" (submit)="onSubmit()">
+      <div class="box">
+        <div
+          class="input-field"
+          [class.error]="
+            signupForm.controls['username'].dirty &&
+            signupForm.hasError('required', 'username')
+          "
+        >
+          <input
+            class="shaktimann"
+            formControlName="username"
+            type="text"
+            placeholder="  Username"
+            #UserName
+          />
+        </div>
+      </div>
+      <small
+        *ngIf="
+          signupForm.controls['username'].dirty &&
+          signupForm.hasError('required', 'username')
+        "
+        class="text-danger"
+        >*Username is required</small
+      >
+      <div class="box">
+        <div
+          class="input-field"
+          [class.error]="
+            signupForm.controls['email'].dirty &&
+            signupForm.hasError('required', 'email')
+          "
+        >
+          <input
+            class="shaktimann"
+            formControlName="email"
+            type="text"
+            placeholder="  Email"
+          />
+        </div>
+      </div>
+      <small
+        *ngIf="
+          signupForm.controls['email'].dirty &&
+          signupForm.hasError('required', 'email')
+        "
+        class="text-danger"
+        >*Email is required</small
+      >
+      <div class="box">
+        <div
+          class="input-field"
+          [class.error]="
+            signupForm.controls['mobile'].dirty &&
+            signupForm.hasError('required', 'mobile')
+          "
+        >
+          <input
+            class="shaktimann"
+            formControlName="mobile"
+            type="text"
+            placeholder="  Molibe"
+          />
+        </div>
+      </div>
+      <small
+        *ngIf="
+          signupForm.controls['mobile'].dirty &&
+          signupForm.hasError('required', 'mobile')
+        "
+        class="text-danger"
+        >*Mobile is required</small
+      >
+      <div class="box">
+        <div
+          class="input-field"
+          [class.error]="
+            signupForm.controls['password'].dirty &&
+            signupForm.hasError('required', 'password')
+          "
+        >
+          <input
+            type="password"
+            class="shaktimann"
+            formControlName="password"
+            placeholder="  *********"
+          />
+        </div>
+      </div>
+      <small
+        *ngIf="
+          signupForm.controls['password'].dirty &&
+          signupForm.hasError('required', 'password')
+        "
+        class="text-danger"
+        >*Password is required</small
+      >
+      <div class="modal-footer">
+        <button type="submit" class="signup">REGISTER</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+  
