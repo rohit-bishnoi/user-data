@@ -3,7 +3,7 @@
     <h2 class="logo">&diams; ADMINTORY</h2>
     <a href="#">Dashboard</a>
     <a href="#">Users</a>
-    <a routerLink="/signup">Register New User</a>
+    <a routerLink="/login">Register Or Login</a>
   </div>
   <div class="body">
     <div class="header">
@@ -111,11 +111,7 @@
       <div class="box">
         <div
           class="input-field"
-          [class.error]="
-            signupForm.controls['username'].dirty &&
-            signupForm.hasError('required', 'username')
-          "
-        >
+          [class.error]="signupForm.controls['username'].dirty && signupForm.hasError('required', 'username')">
           <input
             class="shaktimann"
             formControlName="username"

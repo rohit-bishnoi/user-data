@@ -9,6 +9,9 @@
             </div>
           </div>
           <div class="panel-body p-3">
+            <div class="alert alert-danger" *ngIf="error" style="height: 50px; align-items: center;">
+              <p>{{error}}</p>
+            </div>
             <form [formGroup]="signupForm" class="form" (submit)="onSubmit()">
               <div class="box">
                 <div class="icon">

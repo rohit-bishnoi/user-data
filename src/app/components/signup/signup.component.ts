@@ -16,13 +16,18 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-
   passType: string = 'password';
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
   signupForm: FormGroup;
+  error: string = null;
 
-  constructor(private formbuilder: FormBuilder, private userService: UserService, private toster: ToastrService, private router: Router) {}
+  constructor(
+    private formbuilder: FormBuilder,
+    private userService: UserService,
+    private toster: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = this.formbuilder.group({
@@ -31,7 +36,7 @@ export class SignupComponent implements OnInit {
       mobile: ['', Validators.required],
       password: ['', Validators.required],
     });
-    this.signupForm.reset()
+    this.signupForm.reset();
   }
 
   hideShowPass() {
@@ -41,18 +46,28 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.signupForm.valid) {
+      return;
+    }
     if (this.signupForm.valid) {
       // console.log(this.signupForm.value);
-      this.userService.registerUser([
-        this.signupForm.value.username,
-        this.signupForm.value.email,
-        this.signupForm.value.mobile,
-        this.signupForm.value.password])
-      .subscribe(res => {
-        console.log(res);
-        this.router.navigate(['/login']);
-      });
-      this.toster.success('User registerd successful');
+      this.userService
+        .registerUser([
+          this.signupForm.value.username,
+          this.signupForm.value.email,
+          this.signupForm.value.mobile,
+          this.signupForm.value.password,
+        ])
+        .subscribe(
+          (res) => {
+            console.log(res);
+            // this.router.navigate(['/login']);
+          },
+          (errorRes) => {
+            console.log(errorRes);
+            this.error = errorRes.error;
+          }
+        );
       this.signupForm.reset();
     } else {
       this.validateAllFormsFields(this.signupForm);

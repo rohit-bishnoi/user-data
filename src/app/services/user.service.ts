@@ -16,9 +16,6 @@ export class UserService {
       Email: user[1],
       Mobile: user[2],
       Password: user[3]
-    },
-    {
-      responseType: 'text',
     });
   }
 

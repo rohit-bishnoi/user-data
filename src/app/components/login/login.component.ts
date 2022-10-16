@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   eyeIcon: string = 'fa-eye-slash';
   loginForm: FormGroup;
   userName:string;
+  error: string = null; 
 
   constructor(
     private formbuilder: FormBuilder,
@@ -52,16 +53,21 @@ export class LoginComponent implements OnInit {
       ])
       .subscribe(res => {
         console.log(res);
-        
+       
         if(res == "logedin"){
           console.log(this.userName);
           
           localStorage.setItem("username", this.userName);
           this.router.navigate(['/dashboard']);
+          this.loginForm.reset();
         }
         
+      },
+      (errorRes) => {
+        console.log(errorRes);
+        this.error = errorRes.error;
       });
-      this.loginForm.reset();
+      
       // this.toster.success('User registerd successful');
       
       

@@ -12,6 +12,9 @@
           </div>
           
           <div class="panel-body p-3">
+            <div class="alert alert-danger" *ngIf="error" style="height: 50px; align-items: center;">
+              <p>{{error}}</p>
+            </div>
             <form [formGroup]="loginForm" class="form">
               <div class="box">
                 <div class="icon">
@@ -28,7 +31,7 @@
                     class="shaktimann"
                     formControlName="username"
                     type="text"
-                    placeholder="  Username"
+                    placeholder="Username"
                   />
                 </div>
               </div>
@@ -56,7 +59,7 @@
                     class="shaktimann"
                     formControlName="password"
                     [type]="passType"
-                    placeholder="  *********"
+                    placeholder="*********"
                   />
                   <!-- <span
                     class="fa {{ eyeIcon }}"

@@ -6,30 +6,34 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { SignupComponent } from '../signup/signup.component';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 
 export interface UsersData {
-  id: string,
-  username: string,
-  email: string,
-  mobile: string,
-};
+  id: string;
+  username: string;
+  email: string;
+  mobile: string;
+}
 
 export interface UserData {
   data: UsersData;
-  success:boolean;
-  messagr:string;
+  success: boolean;
+  messagr: string;
 }
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
-
 export class DashboardComponent implements OnInit {
-
-  displayedColumn: string[] = ['id',  'username', 'email', 'mobile'];
+  displayedColumn: string[] = ['id', 'username', 'email', 'mobile'];
   dataSource!: MatTableDataSource<UserData>;
   posts: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -38,12 +42,18 @@ export class DashboardComponent implements OnInit {
   userName: string = 'User';
   closeResult: string;
   signupForm: FormGroup;
-  page = 1;             //the initial page to display
-  collectionSize = 250  //total number of countries in the list
-  pageSize = 25;  
+  page = 1; //the initial page to display
+  collectionSize = 250; //total number of countries in the list
+  pageSize = 25;
   users: any[];
-  
-  constructor(private userService: UserService, private dialog: MatDialog, private modalService: NgbModal,private formbuilder: FormBuilder) { }
+
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog,
+    private modalService: NgbModal,
+    private formbuilder: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getUserData();
@@ -53,41 +63,49 @@ export class DashboardComponent implements OnInit {
       mobile: ['', Validators.required],
       password: ['', Validators.required],
     });
-    this.signupForm.reset()
+    this.signupForm.reset();
   }
-  
+
   getUserData() {
-    return this.userService.getData().subscribe(data => {
+    return this.userService.getData().subscribe((data) => {
       console.log(data);
       this.posts = data;
       this.userName = localStorage.getItem('username').toUpperCase();
-      console.log(this.posts)
+      console.log(this.posts);
       localStorage.setItem('userList', JSON.stringify(data));
 
-      this.dataSource = new MatTableDataSource(this.posts)
+      this.dataSource = new MatTableDataSource(this.posts);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
-  refreshCountries(){
+  refreshCountries() {
     this.users = JSON.parse(localStorage.getItem('userList'))
-    .map((user, i) => ({id: i + 1, ...user}))
-    .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+      .map((user, i) => ({ id: i + 1, ...user }))
+      .slice(
+        (this.page - 1) * this.pageSize,
+        (this.page - 1) * this.pageSize + this.pageSize
+      );
   }
 
-  openDialog(){
-    this.dialog.open(SignupComponent)
+  openDialog() {
+    this.dialog.open(SignupComponent);
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
-  
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -101,19 +119,20 @@ export class DashboardComponent implements OnInit {
   onSubmit() {
     if (this.signupForm.valid) {
       // console.log(this.signupForm.value);
-      this.userService.registerUser([
-        this.signupForm.value.username,
-        this.signupForm.value.email,
-        this.signupForm.value.mobile,
-        this.signupForm.value.password])
-      .subscribe(res => {
-        console.log(res);
-        ModalDismissReasons;
-      });
-      this.signupForm.reset();
+      this.userService
+        .registerUser([
+          this.signupForm.value.username,
+          this.signupForm.value.email,
+          this.signupForm.value.mobile,
+          this.signupForm.value.password,
+        ])
+        .subscribe((res) => {
+          console.log(res);
+        });
+        this.signupForm.reset();
+        window.location.reload();
     } else {
       this.validateAllFormsFields(this.signupForm);
-      // alert("your form is invalid");
     }
   }
 
@@ -127,5 +146,4 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
 }
